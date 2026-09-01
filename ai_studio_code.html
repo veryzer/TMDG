@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Multicultural Discussion Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       CSS Variables & Global Reset
+       ========================================================================== */
+    :root {
+      --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --card-bg: rgba(255, 255, 255, 0.78);
+      --card-border: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.4);
+      --primary: #1e40af;
+      --primary-hover: #1d4ed8;
+      --pill-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+      background-color: #0b132b;
+    }
+
+    /* ==========================================================================
+       Multicultural Global Background
+       Blends the foundational colors of world flags (saffron, crimson, navy, 
+       emerald, gold, sky blue, and amber) into a soft, dynamic ambient mesh.
+       ========================================================================== */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      filter: saturate(1.15);
+    }
+
+    .flag-color-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.65;
+      mix-blend-mode: screen;
+      animation: drift 18s infinite alternate ease-in-out;
+    }
+
+    /* Palette inspired by international flags */
+    .blob-1 {
+      width: 55vw;
+      height: 55vw;
+      background: radial-gradient(circle, #e63946 0%, transparent 70%); /* Crimson / Japan / Turkey / UK */
+      top: -10%;
+      left: -10%;
+      animation-duration: 20s;
+    }
+
+    .blob-2 {
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, #1d3557 0%, transparent 70%); /* Deep Navy / USA / France / Australia */
+      bottom: -10%;
+      right: -10%;
+      animation-duration: 24s;
+    }
+
+    .blob-3 {
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, #2a9d8f 0%, transparent 70%); /* Emerald Green / Brazil / Nigeria / Italy */
+      top: 35%;
+      left: 15%;
+      animation-duration: 22s;
+    }
+
+    .blob-4 {
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, #e9c46a 0%, transparent 70%); /* Gold & Saffron / India / Germany / Ghana */
+      bottom: 10%;
+      left: 30%;
+      animation-duration: 19s;
+    }
+
+    .blob-5 {
+      width: 35vw;
+      height: 35vw;
+      background: radial-gradient(circle, #3a86ff 0%, transparent 70%); /* Sky Blue / Argentina / Greece / Somalia */
+      top: 5%;
+      right: 15%;
+      animation-duration: 25s;
+    }
+
+    /* Subtle geometric overlay to unify the background */
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      backdrop-filter: blur(25px);
+      opacity: 0.8;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+      50% {
+        transform: translate(60px, -40px) scale(1.08) rotate(15deg);
+      }
+      100% {
+        transform: translate(-40px, 50px) scale(0.95) rotate(-10deg);
+      }
+    }
+
+    /* ==========================================================================
+       Content Card (Frosted Glass)
+       ========================================================================== */
+    .card-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 3rem 2.75rem;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Header Tag / Pill */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--pill-bg);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 9999px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .badge-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2563eb;
+    }
+
+    /* Title */
+    .title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Statement Text */
+    .statement {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 2.25rem;
+      text-wrap: pretty;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(148, 163, 184, 0.35),
+        transparent
+      );
+      margin: 2rem 0;
+    }
+
+    /* ==========================================================================
+       Contact Section
+       ========================================================================== */
+    .contact-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-header {
+      font-size: 0.775rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+    }
+
+    .contact-info-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 0.75rem 1.25rem;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .contact-name {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+
+    .contact-name-tag {
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    .contact-separator {
+      color: #cbd5e1;
+      font-weight: 300;
+    }
+
+    .email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .email-link:hover {
+      background: var(--primary);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .email-link svg {
+      transition: transform 0.2s ease;
+    }
+
+    .email-link:hover svg {
+      transform: scale(1.05);
+    }
+
+    /* ==========================================================================
+       Responsive Media Queries
+       ========================================================================== */
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+
+      .glass-card {
+        padding: 2.25rem 1.5rem;
+        border-radius: 22px;
+      }
+
+      .title {
+        font-size: 1.75rem;
+      }
+
+      .statement {
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .contact-info-card {
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .contact-separator {
+        display: none;
+      }
+
+      .email-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Global Flags Mesh Background -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="flag-color-blob blob-1"></div>
+    <div class="flag-color-blob blob-2"></div>
+    <div class="flag-color-blob blob-3"></div>
+    <div class="flag-color-blob blob-4"></div>
+    <div class="flag-color-blob blob-5"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- Main Card Container -->
+  <main class="card-container">
+    <section class="glass-card">
+      
+      <!-- Community Badge -->
+      <div class="badge">
+        <span class="badge-icon">
+          <!-- Globe / Unity Icon -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </span>
+        <span>Global Perspectives • Local Unity</span>
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="title">The Multicultural Discussion Group</h1>
+
+      <!-- Exact Statement Requirement -->
+      <p class="statement">
+        Building a healthy community takes open dialogue, mutual respect, and active listening. The Multicultural Discussion Group brings people together to share experiences, bridge cultural differences, and foster a supportive, vibrant local environment.
+      </p>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <!-- Contact Section -->
+      <footer class="contact-section">
+        <span class="contact-header">Get in Touch</span>
+        
+        <div class="contact-info-card">
+          <div class="contact-name">
+            <span class="contact-name-tag">Contact:</span>
+            <span>James</span>
+          </div>
+
+          <span class="contact-separator" aria-hidden="true">•</span>
+
+          <a href="mailto:tmdgnetwork@gmail.com" class="email-link" aria-label="Send an email to James at tmdgnetwork@gmail.com">
+            <!-- Mail Icon -->
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <span>tmdgnetwork@gmail.com</span>
+          </a>
+        </div>
+      </footer>
+
+    </section>
+  </main>
+
+</body>
+</html>
